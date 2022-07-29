@@ -27,10 +27,10 @@
 <br />
 <div align="center">
   <a href="https://github.com/github_username/repo_name">
-    <img src="images/logo.png" alt="Logo">
+    <img src="https://www.letskrypto.com/img/krypto-logo-nas.png" alt="Logo">
   </a>
 
-<h3 align="center">SDK CLI Tool to Update Dependancies in a Project To a Specified Version</h3>
+<h3 align="center"GoLang Crypto Price Monitoring in Realtime With EMail Notification</h3>
 
   <p align="center">
     This CLI tool is used to manage dependencies in a Node.js Project, update its version adn create Pull Requests accordingly.
