@@ -158,22 +158,35 @@ Post Installing Docker, Install GoLang and Run the Docker Daemon.
 5. Notice that we are Using port 8080 in the LocalHost for the APIs
 
 This Project Has Following APIs
-## /alerts/create/{alertPrice}
+- Note:- An alert has 2 states, "Primed" which means the Alert has not yet triggered, and other is "Triggered".
+## /alerts/create/{alertPrice} (GET Request)
+- ```sh
+  http://localhost:8080/alerts/create/20000
+  ```
 - Creates a Alert with price inputted in alertPrice
 - The Default status of the set Alert State as "Primed".
 - ![image](https://user-images.githubusercontent.com/84318539/181878374-fe56def3-afa1-4b35-93fe-c0ba1a7f1208.png)
 - ![image](https://user-images.githubusercontent.com/84318539/181878382-d7182a3d-3e5a-4912-a9cd-adda00f52503.png)
 
-## /alerts/delete/{alertPrice}
+## /alerts/delete/{alertPrice} (DELETE Request)
+- ```sh
+  http://localhost:8080/alerts/delete/20000
+  ```
 - Deletes the Alert with price inputted in alertPrice.
 - ![image](https://user-images.githubusercontent.com/84318539/181878444-72134b52-7a41-4a92-8b4b-4c35fe47544a.png)
 
 
-## /alerts
+## /alerts (GET Request)
+- ```sh
+  http://localhost:8080/alerts/
+  ```
 - Shows all alerts present in MongoDB Database.
 - ![image](https://user-images.githubusercontent.com/84318539/181878396-3f459a0c-a184-4f15-b38e-b67b45353178.png)
 - ![image](https://user-images.githubusercontent.com/84318539/181878412-ee9bbcd1-29a7-435d-b8fa-f25e2128a3f0.png)
-## /alerts/show/{state}
+## /alerts/show/{state} (GET Request)
+- ```sh
+  http://localhost:8080/alerts/show/Primed
+  ```
 - Shows all Alerts in the Database with its State as given in state.
 - e.g. /alerts/show/Primed will show all alerts that are primed, /alerts/show/Triggered will show all alerts that are Triggered.
 - ![image](https://user-images.githubusercontent.com/84318539/181878465-b92a9d6f-5a67-4ddc-837e-58a8f020d242.png)
