@@ -33,9 +33,9 @@
 <h3 align="center"GoLang Crypto Price Monitoring in Realtime With EMail Notification</h3>
 
   <p align="center">
-    This CLI tool is used to manage dependencies in a Node.js Project, update its version adn create Pull Requests accordingly.
+    This tool is used to create and manage BTC Prices (w.r.t. USDT exchange) and Alert User if the price has falen or hiked as per Alert settings via Email Notification.
     <br />
-    <a href="https://github.com/dyte-submissions/dyte-vit-2022-JesalMP"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/JesalMP/Krypto-Backend-Price-Alert"><strong>Explore the docs »</strong></a>
     <br />
     <br />
   </p>
@@ -76,7 +76,7 @@
 
 <img src="images/ss1.png" alt="About">
 
-This Project is a Basic CLI tool written in Python 3.10 to manage and update the dependencies in a Node.js project hosted on github.com. With its various features, one can find if some dependencies of the project are deprecated with respect to a certain version, create a fork of the project and update the dependancies if wanted, and create a PULL Request to the main proj thereafter.
+This Project is a GoLang Project Backend REST API software to let a user create and manage BTC Price Alerts and send/Trigger these alerts as soon as the price hit he markline. Realtime prices are taken from Binance API and There are 2 Go routines running in the Docker Container, One Serving the HTTP requests to set, view and manage the API reponses, and other iteration over Prcies of BTC/USDT and triggering the alerts and sending mails accordingly.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -84,7 +84,7 @@ This Project is a Basic CLI tool written in Python 3.10 to manage and update the
 
 ### Built With
 
-* [Python](https://www.python.org/)
+* [GoLang](https://go.dev/)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -93,33 +93,25 @@ This Project is a Basic CLI tool written in Python 3.10 to manage and update the
 <!-- GETTING STARTED -->
 ## Getting Started
 
-First things first, to use this CLI, one must obviously have installed Latest Python 3.10 (https://www.python.org/downloads/), pip pythong package manager, nodejs and npm installed. The latter two can be installed by
-- ```sh
-  sudo apt-get install npm nodejs python3-pip
-  ```
+First things first, to use this software, you'll have to install Docker, create an account on Dockerhub.io and have GoLang Installed.
+
 
 
 
 ### Prerequisites
 
-There are some other npm and python libraries also required, assuming the pip package manager is already running and setup in the Linux Environment, install the following packages by running the commands (If some packages are already installed, do not panik, they will be skipped).
+WSL2 updated version need to be installed in order for Docker to work. Check Online guides on Installing Docker for more.
+Post Installing Docker, Install GoLang and Run the Docker Daemon.
+![image](https://user-images.githubusercontent.com/84318539/181877796-db739efc-33e7-4c8b-af6c-d046f67e2a98.png)
 
-- ```sh
-  sudo pip install tabulate apturl urllib3 halo pandas pyfiglet packaging
-  ```
-- ```sh
-  sudo npm install husky
-  ```
+
 
 ### Installation
 
 1. Download the code as zip or clone the repo.
-2. In the project root directory, go to env folder and open "config.py" with any text editor.
-3. In config.py, enter your Github Username in "user_name" variable, Github email id in "user_mailid" variable.
-4. In your Github account, Go to Settings -> Developer Settings -> Personal Access Tokens , and generate a new token with all boxes ticked.
-5. In "config.py" we opened in step 3, enter the token we generated in step 4 in "token" variable.
-6. We are Good to Go.
-<img src="images/configss.png" alt="Config">
+2. In the project root directory, go to .env file and set your MONGODB Url to access the data base, Set your Personal email Id, set IMAP Handler Email id and password (Zoho mail is recomended, since GMAIL disabled support for IMAP), set IMAP Handler Email host address and port.
+3. We are Good to Go.
+![image](https://user-images.githubusercontent.com/84318539/181877883-21114630-9fd3-444c-b028-0bb23822f8df.png)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -127,95 +119,36 @@ There are some other npm and python libraries also required, assuming the pip pa
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-1. Go to Project Root Dir, Let this directory be /rootDir/.
-2. Thus, our project directory will be something like
-```sh
-rootDir
-├── CHANGELOG.md
-├── DependancyUpdater.py
-├── env
-│   └── config.py
-├── file_name.csv
-├── images
-│   ├── logo.png
-│   └── screenshot.png
-├── info.csv
-├── LICENSE.txt
-├── new.sh
-├── README.md
-├── ss
-├── temp
-├── Untitled Document 1
-└── utils
-    └── functions.py
-  ```
-3. Open a Terminal in rootDir.
-4. To view the arguements and parameters of the UpdateDependency.py file, run 
+1. Go to Project Root Dir.
+2. In the Root Directory, Run the Following Commands in windows CMD, Powershell or terminal in Linux,
 - ```sh
-  python3 DependancyUpdater.py -h
+  docker compose build
   ```
-5. You will be greeted by the same Output as in the Logo image, (The very first image in readme.md).
-<img src="images/logo.png" alt="Help commandt">
-6. Here, we will keep our repository information in a csv file named as "info.csv" of which consists of 2 columns, one being "name" which will be name of the project and other will be "repo" which will be github link of the project.
-Sample csv we have taken here is :
 
-```sh
-|name                      |repo                                            |
-|--------------------------|------------------------------------------------|
-|dyte-react-sample-app     |https://github.com/dyte-in/react-sample-app     |
-|dyte-js-sample-app        |https://github.com/dyte-in/javascript-sample-app|
-|dyte-sample-app-backend   |https://github.com/dyte-in/backend-sample-app   |
-```
+-  ![image](https://user-images.githubusercontent.com/84318539/181878056-17b30442-7dfb-435c-bd66-b832ef16ef02.png)
 
 
-
-
-7. Lets say that we want to check whether a dependancy, for example "axios" is deprecated below a given version 0.26.0. We will run the following command
+3. This Will Build the latest Docker Image to be used in a container of Our Go Project.
+4. To run the Project, in the cmd/powershell/terminal , run the following command
 - ```sh
-  python3 DependancyUpdater.py -v 0.26.0 -d axios -i info.csv
+  docker run -p 8080:8080 -it krypto-backend-price-alert_web
   ```
-Here, we pass the "0.26.0" value in the -v parameter , "axios" in the -d parameter and info.csv, which is the link to csv input file which is present in root itself is passd in -i parameter.
-This will give the following output in CL itself and in output.csv generated in rootDir itself:
-<img src="images/npr.png" alt="Version check">
-<img src="images/npro.png" alt="Version check">
+5. Notice that we are Using port 8080 in the LocalHost for the APIs
+
+This Project Has Following APIs
+## /alerts/create/{alertPrice}
+- Creates a Alert with price inputted in alertPrice
+- The Default status of the set Alert State as "Primed".
+## /alerts/delete/{alertPrice}
+- Deletes the Alert with price inputted in alertPrice.
+## /alerts
+- Shows all alerts present in MongoDB Database.
+## /alerts/show/{state}
+- Shows all Alerts in the Database with its State as given in state.
+- e.g. /alerts/show/Primed will show all alerts that are primed, /alerts/show/Triggered will show all alerts that are Triggered.
 
 
-- output.csv:
-```sh
-|FIELD1|name                   |repo                                            |version|version_satisfied|
-|------|-----------------------|------------------------------------------------|-------|-----------------|
-|0     |dyte-react-sample-app  |https://github.com/dyte-in/react-sample-app     |0.24.0 |False            |
-|1     |dyte-js-sample-app     |https://github.com/dyte-in/javascript-sample-app|0.21.1 |False            |
-|2     |dyte-sample-app-backend|https://github.com/dyte-in/backend-sample-app   |0.23.0 |False            |
-```
 
-
-  
-8. Lets say that we want to check whether a dependancy, for example "axios" is deprecated below a given version 0.26.0, and if it is deprecated, we want to fork the repository , update the dependancy in package.json of repository and generate a new package-lock.json in the new forked repository, create a Pull Request from the forked repo to the main repo and give the Pull request link as output .
-- ```sh
-  python3 DependancyUpdater.py -v 0.26.0 -d axios -i info.csv -u
-  ```
-Here, almost all parameters are same except an extra parameter "-u" to generate PR links. The output from this code is showed like this (along with output.csv generated in rootDir itself)
-<img src="images/pr1.png" alt="Version check with fork and PR">
-<img src="images/pr2.png" alt="Version check with fork and PR">
-<img src="images/pr0.png" alt="Version check with fork and PR">
-- output.csv:
-```sh
-|FIELD1|name                   |repo                                            |version|version_satisfied|update_pr                                                |
-|------|-----------------------|------------------------------------------------|-------|-----------------|---------------------------------------------------------|
-|0     |dyte-react-sample-app |https://github.com/dyte-in/react-sample-app     |0.24.0 |False            |https://github.com/dyte-in/react-sample-app/pull/79      |
-|1     |dyte-js-sample-app     |https://github.com/dyte-in/javascript-sample-app|0.21.1 |False            |https://github.com/dyte-in/javascript-sample-app/pull/272|
-|2     |dyte-sample-app-backend|https://github.com/dyte-in/backend-sample-app   |0.23.0 |False            |https://github.com/dyte-in/backend-sample-app/pull/74    |
-
-
-```
-
-Here are the Pull request images from forked repository.
-<img src="images/pr31.png" alt="Fork and PR">
-<img src="images/pr32.png" alt="Fork and PR">
-<img src="images/pr33.png" alt="Fork and PR">
-
-<p align="right">(<a href="#top">back to top</a>)</p>
 
 
 
