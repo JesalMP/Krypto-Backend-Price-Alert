@@ -26,7 +26,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/github_username/repo_name">
+  <a href="https://www.letskrypto.com">
     <img src="https://www.letskrypto.com/img/krypto-logo-nas.png" alt="Logo">
   </a>
 
@@ -77,6 +77,16 @@
 <img src="images/ss1.png" alt="About">
 
 This Project is a GoLang Project Backend REST API software to let a user create and manage BTC Price Alerts and send/Trigger these alerts as soon as the price hit he markline. Realtime prices are taken from Binance API and There are 2 Go routines running in the Docker Container, One Serving the HTTP requests to set, view and manage the API reponses, and other iteration over Prcies of BTC/USDT and triggering the alerts and sending mails accordingly.
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
+## Features
+- Redis Caching
+- JWT Tokens
+- Docker Containerization
+- Go Parallel SubRoutines
+- Realtime Price Tracking
+- Email ALerts
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
