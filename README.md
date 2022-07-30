@@ -85,7 +85,8 @@ This Project is a GoLang Project Backend REST API software to let a user create 
 ### Built With
 
 * [GoLang](https://go.dev/)
-
+* [mongoDB](https://www.mongodb.com/)
+* [DockerHub](https://hub.docker.com/)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
