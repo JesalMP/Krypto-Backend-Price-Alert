@@ -87,6 +87,7 @@ This Project is a GoLang Project Backend REST API software to let a user create 
 - Go Parallel SubRoutines
 - Realtime Price Tracking
 - Email ALerts
+- MongoDB Online Cloud based Atlas Database
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -95,7 +96,7 @@ This Project is a GoLang Project Backend REST API software to let a user create 
 ### Built With
 
 * [GoLang](https://go.dev/)
-* [mongoDB](https://www.mongodb.com/)
+* [mongoDB Atlas](https://www.mongodb.com/)
 * [DockerHub](https://hub.docker.com/)
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -105,6 +106,8 @@ This Project is a GoLang Project Backend REST API software to let a user create 
 ## Getting Started
 
 First things first, to use this software, you'll have to install Docker, create an account on Dockerhub.io and have GoLang Installed.
+As for the Database, I will be using MongoDB Atlas, you can use MongoDB Compass too, but the DB link with username and Password should be valid.
+All in all, Mongo DB Atlas should be used for its ease of usage.
 
 
 
@@ -120,7 +123,7 @@ Post Installing Docker, Install GoLang and Run the Docker Daemon.
 ### Installation
 
 1. Download the code as zip or clone the repo.
-2. In the project root directory, go to .env file and set your MONGODB Url to access the data base, Set your Personal email Id, set IMAP Handler Email id and password (Zoho mail is recomended, since GMAIL disabled support for IMAP), set IMAP Handler Email host address and port.
+2. In the project root directory, go to .env file and set your MongoDB Url to access the data base, Set your Personal email Id, set IMAP Handler Email id and password (Zoho mail is recomended, since GMAIL disabled support for IMAP), set IMAP Handler Email host address and port.
 3. We are Good to Go.
 ![image](https://user-images.githubusercontent.com/84318539/181877883-21114630-9fd3-444c-b028-0bb23822f8df.png)
 
