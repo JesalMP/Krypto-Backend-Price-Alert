@@ -5,7 +5,7 @@ FROM golang:alpine as builder
 
 # Add Maintainer info
 LABEL maintainer="Patel Jesal Manoj <jesalpatel290@gmail.com>"
-
+#FROM base as dev
 # Install git.
 # Git is required for fetching the dependencies.
 RUN apk update && apk add --no-cache git
@@ -39,4 +39,6 @@ COPY --from=builder /app/.env .
 EXPOSE 8080
 
 #Command to run the executable
+
 CMD ["./main"]
+#CMD ["go run main.go"]

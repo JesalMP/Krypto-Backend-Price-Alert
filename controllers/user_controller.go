@@ -5,7 +5,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"html/template"
+
+	//"html/template"
 	"io/ioutil"
 	"net/http"
 	"net/smtp"
@@ -14,10 +15,10 @@ import (
 	"time"
 
 	//"net/smtp"
-
 	"github.com/JesalMP/Krypto-Backend-Price-Alert/configs"
 	"github.com/JesalMP/Krypto-Backend-Price-Alert/models"
 	"github.com/JesalMP/Krypto-Backend-Price-Alert/responses"
+	gomail "gopkg.in/gomail.v2"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
@@ -194,6 +195,56 @@ func GetPrice() (f float64) {
 	//println(f)
 	return
 }
+func SendMail(from1, pass, to1, host, port, msg string) {
+	from := from1
+	password := pass
+
+	// Receiver email address.
+	to := []string{
+		to1,
+	}
+
+	// smtp server configuration.
+	smtpHost := host
+	smtpPort := port
+
+	// Authentication.
+	auth := smtp.PlainAuth("", from, password, smtpHost)
+
+	//t, _ := template.ParseFiles("template.html")
+
+	var body bytes.Buffer
+
+	mimeHeaders := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
+	body.Write([]byte(fmt.Sprintf("Subject: Your Trigger has Triggered \n%s\n\n", mimeHeaders)))
+	//numi := models.EmailBody{"Jesal @ Krypto Employee", msg}
+	//t.Execute(body, numi)
+
+	// Sending email.
+	println(body.Bytes())
+	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, to, body.Bytes())
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+}
+func SendMail2(from1, pass, to1, host, port, msg1 string) {
+	msg := gomail.NewMessage()
+	msg.SetHeader("From", from1)
+	msg.SetHeader("To", to1)
+	msg.SetHeader("Subject", "BTC Price Alert!!!")
+	msg.SetBody("text/html", msg1)
+	//msg.Attach("/home/User/cat.jpg")
+
+	n := gomail.NewDialer(host, 587, from1, pass)
+
+	// Send the email
+	if err := n.DialAndSend(msg); err != nil {
+		panic(err)
+	}
+	fmt.Println("Email Sent!")
+}
 func Trigger() {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 
@@ -219,18 +270,21 @@ func Trigger() {
 		//print(alert)
 	}
 	from := string(configs.EnvEmailMailHandler())
+	//from1 := from
 	pass := string(configs.EnvEmailPassHandler())
 	to := string(configs.EnvUserEmailHandler())
 	//toList := []string{to}
 	host := string(configs.EnvHostHandler())
 	port := string(configs.EnvPortHandler())
+	//println(reflect.TypeOf(from1))
 	//println(from, pass, to, host, port)
 	//&& alert.AlertPrice >= alert.PriceAtAlertCreation
 	for _, alert := range alerts {
 		if currPrice >= alert.AlertPrice && alert.AlertPrice >= alert.PriceAtAlertCreation {
 			var msg string
 			msg = "This message is by Krypto\n Your Trigger of value " + fmt.Sprintf("%v", alert.AlertPrice) + " On Bitcoin Prices is Triggered as of " + time.Now().String() + ", Check Binance for more detailed prices. Current Price : " + fmt.Sprintf("%v", currPrice)
-			SendMail(from, pass, to, host, port, msg)
+			SendMail2(from, pass, to, host, port, msg)
+			//SendMail("jesalkrypto@zohomail.in", "Qwertyuiop@1234", "jesalpatel290@gmail.com", "smtp.zoho.in", "587", "msg")
 			idcurr := alert.Id
 			//println(idcurr.Hex())
 			// //docID := "5d1719988f83df290e8c92ca"
@@ -281,44 +335,4 @@ func Trigger() {
 		}
 	}
 
-}
-
-func SendMail(from1, pass, to1, host, port, msg string) {
-	from := from1
-	password := pass
-
-	// Receiver email address.
-	to := []string{
-		to1,
-	}
-
-	// smtp server configuration.
-	smtpHost := host
-	smtpPort := port
-
-	// Authentication.
-	auth := smtp.PlainAuth("", from, password, smtpHost)
-
-	t, _ := template.ParseFiles("template.html")
-
-	var body bytes.Buffer
-
-	mimeHeaders := "MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
-	body.Write([]byte(fmt.Sprintf("Subject: Your Trigger has Triggered \n%s\n\n", mimeHeaders)))
-
-	t.Execute(&body, struct {
-		Name    string
-		Message string
-	}{
-		Name:    "Jesal @ Krypto Employee",
-		Message: msg,
-	})
-
-	// Sending email.
-	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, to, body.Bytes())
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	fmt.Println("Email Sent!")
 }

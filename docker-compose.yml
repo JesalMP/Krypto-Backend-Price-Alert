@@ -1,8 +1,11 @@
 version: "3.9"
 services:
   web:
-    build: .
+    build: 
+      dockerfile: Dockerfile
+      context: .
     ports:
       - "8000:6061"
+    
   redis:
     image: "redis:alpine"

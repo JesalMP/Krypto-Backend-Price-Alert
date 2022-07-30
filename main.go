@@ -3,6 +3,8 @@ package main
 import (
 	"log"
 	"net/http"
+
+	//"reflect"
 	"sync"
 
 	"github.com/JesalMP/Krypto-Backend-Price-Alert/configs"
@@ -18,17 +20,25 @@ func theRouter(wg *sync.WaitGroup) {
 	//configs.ConnectDB()
 	routes.UserRoute(router)
 
-	log.Fatal(http.ListenAndServe(":6061", router))
-	wg.Done()
+	log.Fatal(http.ListenAndServe(":8080", router))
+	//wg.Done()
 }
 func Mailer(wg *sync.WaitGroup) {
 
 	defer wg.Done()
+
 	for {
 		println("waiting for trigger")
 		controllers.Trigger()
+
 	}
-	wg.Done()
+	//println("waiting for trigger")
+
+	// println(reflect.TypeOf(from1))
+	// println(from, pass, to, host, port)
+	//controllers.SendMail("jesalkrypto@zohomail.in", "Qwertyuiop@1234", "jesalpatel290@gmail.com", "smtp.zoho.in", "587", "msg")
+	//controllers.SendMail2(from1, pass, to, host, port, "THIS IS TEST")
+	//wg.Done()
 	//controllers.Trigger()
 
 }
@@ -41,6 +51,8 @@ func main() {
 
 	go theRouter(wg)
 	go Mailer(wg)
+	//controllers.SendMail2()
+	//controllers.SendMail("jesalkrypto@zohomail.in", "Qwertyuiop@1234", "jesalpatel290@gmail.com", "smtp.zoho.in", "587", "msg")
 	wg.Wait()
 	//controllers.Trigger()
 

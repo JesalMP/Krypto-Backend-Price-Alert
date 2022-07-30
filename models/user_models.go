@@ -9,6 +9,10 @@ type UserDat struct {
 	Name, Email string
 	Alerts      []Alert
 }
+type EmailBody struct {
+	Name    string
+	Message string
+}
 
 type Alert struct {
 	Id                   primitive.ObjectID
