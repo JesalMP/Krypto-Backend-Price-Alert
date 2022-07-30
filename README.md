@@ -133,20 +133,39 @@ Post Installing Docker, Install GoLang and Run the Docker Daemon.
 - ```sh
   docker run -p 8080:8080 -it krypto-backend-price-alert_web
   ```
+-![image](https://user-images.githubusercontent.com/84318539/181878329-d734d511-891a-4dc4-b9da-c8c3a0c2f399.png)
+
 5. Notice that we are Using port 8080 in the LocalHost for the APIs
 
 This Project Has Following APIs
 ## /alerts/create/{alertPrice}
 - Creates a Alert with price inputted in alertPrice
 - The Default status of the set Alert State as "Primed".
+- ![image](https://user-images.githubusercontent.com/84318539/181878374-fe56def3-afa1-4b35-93fe-c0ba1a7f1208.png)
+- ![image](https://user-images.githubusercontent.com/84318539/181878382-d7182a3d-3e5a-4912-a9cd-adda00f52503.png)
+
 ## /alerts/delete/{alertPrice}
 - Deletes the Alert with price inputted in alertPrice.
+- ![image](https://user-images.githubusercontent.com/84318539/181878444-72134b52-7a41-4a92-8b4b-4c35fe47544a.png)
+
+
 ## /alerts
 - Shows all alerts present in MongoDB Database.
+- ![image](https://user-images.githubusercontent.com/84318539/181878396-3f459a0c-a184-4f15-b38e-b67b45353178.png)
+- ![image](https://user-images.githubusercontent.com/84318539/181878412-ee9bbcd1-29a7-435d-b8fa-f25e2128a3f0.png)
 ## /alerts/show/{state}
 - Shows all Alerts in the Database with its State as given in state.
 - e.g. /alerts/show/Primed will show all alerts that are primed, /alerts/show/Triggered will show all alerts that are Triggered.
+- ![image](https://user-images.githubusercontent.com/84318539/181878465-b92a9d6f-5a67-4ddc-837e-58a8f020d242.png)
 
+
+# Email Alerts
+- A seperate GORoutine is running continously monitoring the Realtime Prices of BTC/USDT with Binance API.
+- When user sets an Alert, There are 2 possibilty of triggering the alert
+- - Let price of BTC  be X during Creation of Alert, and let ALert Price be A which will be Greater then X. When BTC Price Exceed both X and A, the Alert will happen as a "Price Hike" alert.
+- - Let price of BTC  be X during Creation of Alert, and let ALert Price be A which will be Leser then X. When BTC Price Drops below both X and A, the Alert will happen as a "Price Dip" alert.
+- When the price happens to be in range of any "Primed" alerts, its status will be changed to Triggered in Database, and a email will be sent to user's email id of Current price, time of triggering and Which Alert has been Triggered.
+- ![image](https://user-images.githubusercontent.com/84318539/181878650-08f558e4-074a-40f3-9ebc-6564083c1889.png)
 
 
 
@@ -192,8 +211,8 @@ https://www.linkedin.com/in/jesal-patel-130a5b217/
 <!-- ACKNOWLEDGMENTS -->
 ## Acknowledgments
 
-* https://gist.github.com/ursulacj/36ade01fa6bd5011ea31f3f6b572834e Reference for code taken.
-* https://stackoverflow.com/users/14122035/arthur-miranda for explaining in better way then gihub for commit  APIs. https://stackoverflow.com/questions/#11801983/how-to-create-a-commit-and-push-into-repo-with-github-api-v3
+* https://tutorialedge.net/golang/go-docker-tutorial/ Reference for code taken.
+* https://levelup.gitconnected.com/dockerized-crud-restful-api-with-go-gorm-jwt-postgresql-mysql-and-testing-61d731430bd8 For Reference and Insights.
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
